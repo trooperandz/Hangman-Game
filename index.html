@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> Hangman, Roman Style </title>
+
+		<!-- Latest Bootstrap compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+		<!-- Customized stylesheet -->
+		<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+		<!-- Google font -->
+		<link href="https://fonts.googleapis.com/css?family=Cinzel" rel="stylesheet">
+	</head>
+
+	<body>
+		<!-- Game play should start with the modal. Remove the okay button, and hide manually on first keyup event -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+		  	<div class="modal-dialog" role="document">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		        		<h4 class="modal-title text-center">Grecco-Roman Hangman</h4>
+		      		</div>
+		      		<div class="modal-body">
+		        		<p class="text-center">Press Any Key To Begin!&hellip;</p>
+		      		</div>
+		    	</div><!-- /.modal-content -->
+		  	</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
+		<div class="jumbotron">
+  			<div class="container">
+    			<h1 class="text-center"> Grecco-Roman Hangman! </h1>
+  			</div>
+		</div>
+
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-sm-12 col-md-3 col-lg-3">
+					<div class="panel panel-left">
+						<h3 class="text-center"> Wins </h3>
+						<p class="text-center" id="game-win-count">0</p>
+						<div id="timer">
+							<!--Days: <span class="days"></span><br>
+    						Hours: <span class="hours"></span><br>
+    						Minutes: <span class="minutes"></span><br>
+    						Seconds: <span class="seconds"></span>-->
+						</div>
+					</div>
+				</div>
+
+				<section class="col-sm-12 col-md-6 col-lg-6">
+					<div class="panel">
+						<div class="row">
+							<div class="col-sm-12 col-md-12 col-lg-12">
+								<h3 class="text-center" id="round-heading"> Round 1 </h3>
+							</div>
+							<div class="col-sm-12 col-md-12 col-lg-12 div-feedback">
+								<p class="key-feedback text-center"></p>
+							</div>
+							<div class="col-sm-12 col-md-12 col-lg-12">
+								<div class="text-center" id="guessBlanks"></div>
+							</div>
+							<div class="col-sm-12 col-md-12 col-lg-12">
+								<h3 class="text-center">Guesses Remaining</h3>
+								<p id="remaining-guesses">15</p>
+							</div>
+							<div class="col-sm-12 col-md-12 col-lg-12">
+								<h3 class="text-center" id="remaining-time">Time Remaining</h3>
+								<div id="timer">
+									<!--Days: <span class="days"></span><br>
+    								Hours: <span class="hours"></span><br>-->
+    								<p> Minutes: <span class="minutes"></span> </p> <br>
+    								<p> Seconds: <span class="seconds"></span> </p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<div class="col-sm-12 col-md-3 col-lg-3">
+					<div class="panel panel-right">
+						<h3 class="text-center"> Losses </h3>
+						<p class="text-center" id="game-loss-count">0</p>
+						<h4 class="text-center"> Wrong Letters Guessed </h4>
+						<p class="text-center" id="letters-incorrect"></p>
+					</div>
+				</div>
+			</div>
+		</div> <!-- .container-fluid -->
+
+
+
+
+
+
+
+		<!-- jQuery (necessary for Bootstrap's & other JavaScript plugins) -->
+   		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+   		<!-- Backstretch js plugin, for page background -->
+   		<script src="assets/javascript/backstretch_plugin.min.js"></script>
+
+		<!-- Latest compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+		<!-- Custom js game code -->
+		<script src="assets/javascript/game.js"></script>
+
+		<!-- Backstretch background plugin initialization -->
+		<script>
+		/*
+			var endTime = '2016-08-10';
+
+			function getTimeRemaining(endTime) {
+				var t = Date.parse(endTime) - Date.parse(new Date());
+				var seconds = Math.floor((t/1000) % 60);
+				var minutes = Math.floor((t/1000/60) % 60);
+				var hours = Math.floor((t/(1000*60*60)) % 24);
+				var days = Math.floor(t/(1000*60*60*24));
+
+				return {
+					'total': t,
+					'days' : days,
+					'hours': hours,
+					'minutes' : minutes,
+					'seconds' : seconds
+				};
+			}
+
+			function initializeClock(id, endTime) {
+				var clock = document.getElementById(id);
+				var daysSpan = clock.querySelector('.days');
+				var hoursSpan = clock.querySelector('.hours');
+				var minutesSpan = clock.querySelector('.minutes');
+				var secondsSpan = clock.querySelector('.seconds');
+
+				function updateClock() {
+					var t = getTimeRemaining(endTime);
+					   // daysSpan.innerHTML = t.days;
+    					//hoursSpan.innerHTML = t.hours;
+    					minutesSpan.innerHTML = t.minutes;
+    					secondsSpan.innerHTML = t.seconds;
+					if(t.total <= 0) {
+						clearInterval(timeInterval);
+					}
+				}
+
+				updateClock();
+				var timeInterval = setInterval(updateClock, 1000);
+
+				/*
+				var timeInterval = setInterval(function() {
+					var t = getTimeRemaining(endTime);
+					clock.innerHTML = 'days: ' + t.days + '<br>' +
+									  'hours: ' + t.hours + '<br>' +
+									  'minutes: ' + t.minutes + '<br>' +
+									  'seconds: ' + t.seconds;
+					if(t.total <= 0) {
+						clearInterval(timeInterval);
+					}
+				}, 1000);*/
+				/*
+			}
+
+			initializeClock('timer', endTime);*/
+
+			$(document).ready(function() {
+
+				// Show the modal before gameplay begins
+				$("#myModal").modal("show");
+
+				// Include the backstretch plugin to make the background image fully responsive
+				$.backstretch(
+					[
+  				      "assets/images/bg_main.jpg",
+  				      "assets/images/colliseum.jpg",
+  				  	  "assets/images/fountain.jpg",
+  				  	  "assets/images/stairs.jpg"
+  					], 
+  					{duration: 5000, fade: 750}
+  				);
+			});
+		</script>
+	</body>
+</html>
