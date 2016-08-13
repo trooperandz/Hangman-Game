@@ -7,6 +7,7 @@ h1 {
 	font-weight: 200;	
 }
 
+/* Main Heading */
 .jumbotron {
 	background: transparent;
 	padding-bottom: 0;
@@ -16,6 +17,7 @@ h1 {
 	color: #fff;
 }
 
+/* Heading for round number */
 #round-heading {
 	font-size: 44px;
 }
@@ -43,8 +45,9 @@ h3 {
 	opacity: .8;
 }
 
+/* Heading for Guesses remaining and time remaining */
 section h3 {
-	font-size: 20px;
+	font-size: 30px;
 }
 
 #remaining-guesses {
@@ -70,6 +73,7 @@ h4 {
 	font-size: 20px;
 }
 
+/* Styling for main guess blank letter holders */
 #guessBlanks p {
 	display: inline-block;
 	width: 71.31px;
@@ -105,6 +109,7 @@ h4 {
 	font-size: 30px;
 }
 
+/* Move the modal down a bit so it is almost in the center of the screen */
 .modal {
 	margin-top: 10%
 }
@@ -115,14 +120,16 @@ h4 {
 	color: maroon;
 }
 
+/* Message for the game over modal */
+#game-over-modal-msg {
+	font-size: 20px;
+}
+
 .modal-header {
 	height: 200px;
 }
-/*
-.modal-body {
-	height: 200px;
-}*/
 
+/* Center any text you need */
 .text-center {
 	text-align: center;
 }
@@ -154,10 +161,6 @@ h4 {
 	font-size: 12px;
 	color: maroon;
 	border-bottom: none;
-}
-
-div#guessBlanks {
-
 }
 
 @media screen and (min-width: 980px) {

@@ -26,7 +26,7 @@
 		      		</div>
 		    	</div><!-- /.modal-content -->
 		  	</div><!-- /.modal-dialog -->
-		</div><!-- /.modal -->
+		</div><!-- #myModal -->
 
 		<!-- This modal is for display when the game is over. Give the user the option to start another one, or close the window tab-->
 		<div class="modal fade" id="game-over-modal" tabindex="-1" role="dialog">
@@ -41,8 +41,16 @@
 		      		</div>
 		    	</div><!-- /.modal-content -->
 		  	</div><!-- /.modal-dialog -->
-		</div><!-- /.modal -->
+		</div><!-- #game-over-modal -->
 
+		<!-- audio for game play -->
+		<audio src="assets/music/vast_skyline.mp3" id="music-background" loop="loop" autoplay="autoplay">Your browser does not support the audio element.</audio>
+		<!-- audio for game win -->
+		<audio src="assets/music/spaceship.mp3" id="music-win">Your browser does not support the audio element.</audio>
+		<!-- audio for game loss -->
+		<audio src="assets/music/abandoned_city.mp3" id="music-lose">Your browser does not support the audio element.</audio>
+
+		<!-- Big Page Heading -->
 		<div class="jumbotron">
   			<div class="container">
     			<h1 class="text-center"> Grecco-Roman Hangman! </h1>
@@ -104,12 +112,6 @@
 			</div>
 		</div> <!-- .container-fluid -->
 
-
-
-
-
-
-
 		<!-- jQuery (necessary for Bootstrap's & other JavaScript plugins) -->
    		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
@@ -124,7 +126,8 @@
 
 		<!-- Backstretch background plugin initialization -->
 		<script>
-		/*
+
+		/* CODE FOR TIMER.  STILL GETTING IT TO WORK
 			var endTime = '2016-08-10';
 
 			function getTimeRemaining(endTime) {
@@ -189,9 +192,10 @@
 				$.backstretch(
 					[
   				      "assets/images/bg_main.jpg",
-  				      "assets/images/colliseum.jpg",
-  				  	  "assets/images/fountain.jpg",
-  				  	  "assets/images/stairs.jpg"
+  				      "assets/images/man.jpg",
+  				  	  "assets/images/night.jpg",
+  				  	  "assets/images/stairs.jpg",
+  				  	  "assets/images/pantheon.jpg"
   					], 
   					{duration: 5000, fade: 750}
   				);
