@@ -88,15 +88,17 @@
 								<h3 class="text-center">Guesses Remaining</h3>
 								<p class="text-center" id="remaining-guesses">10</p>
 							</div>
+							<!--
 							<div class="col-sm-12 col-md-12 col-lg-12">
 								<h3 class="text-center" id="remaining-time">Time Remaining</h3>
 								<div id="timer">
 									<!--Days: <span class="days"></span><br>
     								Hours: <span class="hours"></span><br>-->
+    								<!--
     								<p class="text-center" id="time-p"> Minutes: <span class="minutes"></span> </p> <br>
     								<p class="text-center" id="time-p"> Seconds: <span class="seconds"></span> </p>
 								</div>
-							</div>
+							</div>-->
 						</div>
 					</div>
 				</section>
@@ -126,6 +128,24 @@
 
 		<!-- Backstretch background plugin initialization -->
 		<script>
+
+		$(document).ready(function() {
+
+				// Show the modal before gameplay begins
+				$("#myModal").modal("show");
+
+				// Include the backstretch plugin to make the background image fully responsive
+				$.backstretch(
+					[
+  				      "assets/images/bg_main.jpg",
+  				      "assets/images/man.jpg",
+  				  	  "assets/images/night.jpg",
+  				  	  "assets/images/stairs.jpg",
+  				  	  "assets/images/pantheon.jpg"
+  					], 
+  					{duration: 7000, fade: 2000}
+  				);
+			});
 
 		/* CODE FOR TIMER.  STILL GETTING IT TO WORK
 			var endTime = '2016-08-10';
@@ -182,24 +202,6 @@
 			}
 
 			initializeClock('timer', endTime);*/
-
-			$(document).ready(function() {
-
-				// Show the modal before gameplay begins
-				$("#myModal").modal("show");
-
-				// Include the backstretch plugin to make the background image fully responsive
-				$.backstretch(
-					[
-  				      "assets/images/bg_main.jpg",
-  				      "assets/images/man.jpg",
-  				  	  "assets/images/night.jpg",
-  				  	  "assets/images/stairs.jpg",
-  				  	  "assets/images/pantheon.jpg"
-  					], 
-  					{duration: 5000, fade: 750}
-  				);
-			});
 		</script>
 	</body>
 </html>
