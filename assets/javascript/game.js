@@ -2,8 +2,7 @@ var game = {
 	// Boolean value to determine start of game
 	initialInput: true,
 	// Array of all possible gameplay choices
-	//masterAnswerArray: ["TIBERIUS", "MARCUS", "BRUTUS", "OCTAVIUS", "CAESAR"],
-	masterAnswerArray: ["TIBERIUS", "MARCUS"],
+	masterAnswerArray: ["TIBERIUS", "MARCUS", "BRUTUS", "OCTAVIUS", "CAESAR"],
 	// The computer's choice from masterAnswerArray
 	initialPick: "",
 	// Make sure that user is only able to play with letters, man!!
