@@ -149,6 +149,11 @@ h4 {
 	color: #fff;
 }
 
+/* Make the hint stand out */
+#hint-span {
+	color: orange;
+}
+
 #game-loss-count {
 	font-size: 150px;
 	color: #fff;
