@@ -1,0 +1,17 @@
+*Hangman Testing
+	1) does next round start if run out of guesses and user chooses to continue?
+		
+	2) does next round start if win the guess and user chooses to continue?
+
+	3) does game over modal show if the game is over (masterAnswerArray empty)?
+
+	4) Does game cancel if user lost round, and chooses not to continue
+
+	5) Does game cancel if user won round, and chooses not to continuie
+
+*Counts etc
+	1) Do games won and games lost update after a round?
+
+	2) Does wrong letters chosen list reset for each new round?
+
+	3) Does incorrect guesses count reset after each new round start?

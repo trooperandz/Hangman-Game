@@ -47,8 +47,22 @@ section h3 {
 	font-size: 20px;
 }
 
-#remaining-guesses, #remaining-time {
+#remaining-guesses {
+	margin-top: 25px;
+	color: #4aaaa5;
+	font-size: 20px;
+}
+
+#remaining-time {
 	margin-top: 60px;
+}
+
+#remaining-guesses {
+	font-size: 25px;
+}
+
+#time-p {
+	font-size: 17px;
 }
 
 h4 {
@@ -111,6 +125,16 @@ h4 {
 
 .text-center {
 	text-align: center;
+}
+
+.left-align {
+	text-align: left;
+	display: inline-block;
+}
+
+.right-align {
+	text-align: right;
+	display: inline-block;
 }
 
 #game-win-count {

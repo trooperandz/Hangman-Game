@@ -3,18 +3,16 @@ var game = {
 	initialInput: true,
 	// Array of all possible gameplay choices
 	masterAnswerArray: ["TIBERIUS", "MARCUS", "BRUTUS", "OCTAVIUS", "CAESAR"],
-	// Temp array to determine if the ENTIRE game is over. Wait, prob don't need this
-	tempMasterAnswerArray: [],
 	// The computer's choice from masterAnswerArray
 	initialPick: "",
 	// Make sure that user is only able to play with letters, man!!
 	alphaRequirement: /^[A-z]+$/,
 	// Save total games won, as count will be used for user feedback count (use 'x' as placeholder)
-	gamesWon: [],
+	roundsWon: [],
 	// Save total games lost, as count will be used for user feedback count (use 'x' as placeholder)
-	gamesLost: [],
+	roundsLost: [],
 	// Establish total possible number of guesses, before the current game is lost
-	totalLetterGuessLimit: 15,
+	totalLetterGuessLimit: 10,
 	// Array of inidividual letters for each character in the initialPick var
 	currentAnswerArray: [],
 	// User keystroke
@@ -23,22 +21,57 @@ var game = {
 	correctGuessArray: [],
 	// Store all incorrect guesses
 	incorrectGuessArray: [],
-	// Initialize boolean to track correct or incorrect guess state (to be used to push items to guess arrays)
-	correctGuess: false,
-	// Initialize correctLetterCount for tracking of correct choices
-	correctLetterCount: 0,
-	// Initialize incorrectLetterCount for tracking of incorrect choices
-	incorrectLetterCount: 0,
 	// Initialize count for number of guesses left during current game
-	guessesRemaining: 0,
+	guessesRemaining: 10,
 	// Keep track of which round the player is currently playing
-	roundNumber: 1,
+	roundNumber: 0,
 	// Used for fade in, fade out feedback to use after winning keystroke
 	successKeyFeedback: "Nice One!",
 	// Used for fade in, fade out feedback to user after losing keystroke
 	failureKeyFeedback: "Sorry, no dice!",
 	// Used for fade in, fade out feedback to user after duplicate key entry
 	dupeKeyFeedback: "You already chose that one!",
+
+	// Initialize a new round
+	initializeGameRound: function() {
+		// Reset the object properties for the new round
+		this.resetRoundVars();
+
+		// Get the computer to choose a random string from masterAnwerArray
+		this.initialPick = this.randomPick();
+		this.log("initial pick: " + this.initialPick);
+
+		// Take the initialPick string and push into currentAnswerArray as an array of letters
+		this.currentAnswerArray = this.initialPick.split("");
+		this.log("currentAnswerArray: " + this.currentAnswerArray);
+
+		// Increment the game round count, and then fill in the correct game round #
+		this.roundNumber = this.roundNumber += 1;
+		$('#round-heading').html("Round " + this.roundNumber).fadeIn(2500);
+
+		// Fill in zeroes for the counts
+		$('#remaining-guesses').html(this.guessesRemaining).fadeIn(2500);
+		$('#total-guesses').html(0).fadeIn(2500);
+		$('#letters-incorrect').text("");
+
+		// Create html content to display blank answer choices
+		this.createGuessBlanks("#guessBlanks", this.currentAnswerArray);
+	},
+
+	// Reset the global variables for a new game round. Do not reset master array.  Window reload will do that.
+	resetRoundVars: function() {
+		//this.initialInput = false;
+		//this.masterAnswerArray: ["TIBERIUS", "MARCUS", "BRUTUS", "OCTAVIUS", "CAESAR"];
+		this.initialPick = "";
+		//this.roundsWon = [];
+		//this.roundsLost = [];
+		this.currentAnswerArray = [];
+		this.userGuess = "";
+		this.correctGuessArray = [];
+		this.incorrectGuessArray = [];
+		this.guessesRemaining = 10;
+		//this.roundNumber = 0;
+	},
 
 	// Create the game blanks and insert the html
 	createGuessBlanks: function(id, array) {
@@ -59,6 +92,23 @@ var game = {
 		return String.fromCharCode(keystroke.keyCode).toUpperCase();
 	},
 
+	// Remove the initial pick from the master answer array after game round has concluded
+	pullMasterAnswerArray: function() {
+		var removeIndex = this.masterAnswerArray.indexOf(this.initialPick);
+		(removeIndex != -1) ? this.masterAnswerArray.splice(removeIndex) : alert("Fatal System Error: initialPick not found!");
+		this.log("masterAnswerArray should have been altered! It is now: " + this.masterAnswerArray);
+	},
+
+	showGameCompleteModal: function(msg) {
+		$('#game-over-modal').modal('show');
+		$('#game-over-modal-msg').text(msg + "<br>" + this.showGameWinsLostCount());
+		this.log("You just reached the end of the game!");
+	},
+
+	showGameWinsLostCount: function() {
+		return "<span style='font-size: 15px;'> You won " + this.roundsWon.length + " rounds and you lost " + this.roundsLost.length + " rounds! </span>";
+	},
+
 	// Console.log function for debugging
 	log: function(msg) {
 		console.log(msg + "\n");
@@ -69,34 +119,31 @@ $(document).ready(function() {
 
 	// Show the modal before gameplay begins
 	$("#myModal").modal("show");
+	//$("#game-over-modal").modal("show");
+
+	// Provide a click handler for the game over modal, restart game choice, so that modal goes away
+	// Note that the processing code for the new game start has already occurred on the page prior to modal displaying
+	$('#new-game-button').on('click', function(e) {
+		//e.target.modal("hide");
+		location.reload();
+	});
+
+	// Provide a click handler for the window close modal button
+	$('#close-window-button').on('click', function() {
+		window.close();
+	});
 
 	document.onkeyup = function(event) {
 		if(game.initialInput) {
 			// Hide the modal when user presses the first key
 			$("#myModal").modal("hide");
 
-			// Get the computer to choose a random string from masterAnwerArray
-			game.initialPick = game.randomPick();
-			game.log("initial pick: " + game.initialPick);
-
-			// Push the initialPick 
-
-			// Take the initialPick string and push into currentAnswerArray as an array of letters
-			game.currentAnswerArray = game.initialPick.split("");
-			game.log("currentAnswerArray: " + game.currentAnswerArray);
-
-			// Fill in zeroes for the counts
-			$('h3#remaining-guesses').html(game.guessesRemaining);
-			$('h3#total-guesses').html(0);
-
-			// Create html content to display blank answer choices
-			game.createGuessBlanks("#guessBlanks", game.currentAnswerArray);
+			// Initialize the new round
+			game.initializeGameRound();
 
 			// Set initialInput to true so that that code goes into gameplay mode at next keystroke
 			game.initialInput = false;
-		} else {	
-			game.log("Entered else block");
-
+		} else {
 			// Grab the key that the user chose
 			game.userGuess = game.convertKeyPress(event);
 			game.log("keystrok chosen: " + game.userGuess);
@@ -125,28 +172,31 @@ $(document).ready(function() {
 			// incorrectGuessArray lengths will be used later to determine guesses left
 			// Note: no need to clear the temp array, as the code above does so for each keystroke
 			if(tempCorrectArray.length > 0) {
-				// Store the correct guess if it does not already exist in the array
+				// User chose a correct letter! Store the correct guess if it does not already exist in the array
 				if(tempCorrectArray > 1) {
 					// Push dupe letters into correct guess array so can determine if round is over in future
+					// Note: you need to store dupes so that when user has guessed all correct letters, 
+					// the length of correctGuessArray == length of correctAnswerArray                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             == correctAnswerArray.length
 					if(game.correctGuessArray.indexOf(game.userGuess) == -1) {
 						tempCorrectArray.forEach(function(letter) {
 							game.correctGuessArray.push(game.userGuess);
+							game.log("The letter " + game.userGuess + " was addded to correctGuessArray!");
 						});
 						// Now fade in/ fade out a message on the screen for feedback
-						$('.key-feedback').text(game.successKeyFeedback).fadeIn("slow").fadeOut(3500);
+						$('.key-feedback').text(game.successKeyFeedback).fadeIn("1000").fadeOut(2500);
 					} else {
 						// Now fade in/ fade out a message on the screen for duplicate feedback
-						$('.key-feedback').text(game.dupeKeyFeedback).fadeIn("slow").fadeOut(3500);
+						$('.key-feedback').text(game.dupeKeyFeedback).fadeIn("1000").fadeOut(2500);
 					}
 				} else {
 					// Will == 1 in this case
 					if(game.correctGuessArray.indexOf(game.userGuess) == -1) {
 						game.correctGuessArray.push(game.userGuess);
 						// Now fade in/ fade out a message on the screen for feedback
-						$('.key-feedback').text(game.successKeyFeedback).fadeIn("slow").fadeOut(3500);
+						$('.key-feedback').text(game.successKeyFeedback).fadeIn("1000").fadeOut(2500);
 					} else {
 						// Now fade in/ fade out a message on the screen for duplicate feedback
-						$('.key-feedback').text(game.dupeKeyFeedback).fadeIn("slow").fadeOut(3500);
+						$('.key-feedback').text(game.dupeKeyFeedback).fadeIn("1000").fadeOut(2500);
 					}
 				}
 			} else {
@@ -154,10 +204,10 @@ $(document).ready(function() {
 				if(game.incorrectGuessArray.indexOf(game.userGuess) == -1) {
 					game.incorrectGuessArray.push(game.userGuess);
 					// Now fade in/ fade out a message on the screen for feedback
-					$('.key-feedback').text(game.failureKeyFeedback).fadeIn("slow").fadeOut(3500);
+					$('.key-feedback').text(game.failureKeyFeedback).fadeIn("1000").fadeOut(2500);
 				} else {
 					// Now fade in/ fade out a message on the screen for duplicate feedback
-					$('.key-feedback').text(game.dupeKeyFeedback).fadeIn("slow").fadeOut(3500);
+					$('.key-feedback').text(game.dupeKeyFeedback).fadeIn("1000").fadeOut(2500);
 				}
 			}
 
@@ -166,6 +216,7 @@ $(document).ready(function() {
 			game.incorrectGuessArray.forEach(function(letter, index) {
 				content += (index == game.incorrectGuessArray.length -1) ? letter : letter + ", ";
 			});
+
 			$('#letters-incorrect').text(content);
 
 			game.log('correctGuessArray: ' + game.correctGuessArray);
@@ -175,55 +226,68 @@ $(document).ready(function() {
 			game.guessesRemaining = (game.totalLetterGuessLimit - game.incorrectGuessArray.length); 
 			$('#remaining-guesses').text(game.guessesRemaining);
 
-			if(game.guessesRemaining == 0) {
-				// Round would end and game would either continue with a new word, or completely end (if master array == blank)
-				game.gamesLost.push('x');
-				alert("You just lost that round!");
-				game.log("You just lost that round!");
-				// Pull the initialPick string out of the master array
-				var removeIndex = game.masterAnswerArray.indexOf(game.initialPick);
-				game.log('initialPick: ' + initialPick);
-				(removeIndex != -1) ? game.masterAnswerArray.splice(removeIndex) : alert("initialPick not found!");
+			// If the user was unable to guess the current word, continue to next round if he/she confirms
+			if(game.guessesRemaining < 1) {
+				// Record the lost round.
+				game.roundsLost.push('x');
+						
+				// Remove the initial pick from the master answer array
+				game.pullMasterAnswerArray();
 
-				// Check masterAnswerArray length to see if game should continue
-				if(masterAnswerArray.length != 0) {
-					game.initialPick = game.randomPick();
-					game.currentAnswerArray = game.initialPick.split("");
-					// Would need to also replace the "Round 1" etc <div> with "Round 2"
-					var round = game.roundNumber += 1;
-					$('#round-heading').html("Round " + game.roundNumber )
-					// Would need to clear the content of the answer blanks
+				// User lost the round. Check masterAnswerArray length to see if game should continue
+				if(game.masterAnswerArray.length != 0) {
+					// Show confirm to ask use if they want to continue playing
+					if(!(confirm("Sorry, you weren't smart enough for that one.  Do you want to continue to the next round?"))) {
+						// User chose not to continue the game.  End it by reloading the page
+						location.reload();
+					} else {
+						// User chose to go to the next round. Initialize the new round. Note: this method includes the resetRoundVars() method
+						game.initializeGameRound();
+						game.log("Another round should have started at this point...");
 
+						// Update the games lost count
+						$('#game-loss-count').text(game.roundsLost.length);
+						return;
+					}
+				} else {
+					// User lost the whole game.  Show game over modal.  Modal button listeners will take care of action.
+					showGameCompleteModal("Sorry, Game Over!");
+					return;
 				}
 			} else if(game.correctGuessArray.length == game.currentAnswerArray.length) {
-				// If the correct guesses == actual current answer array length, then they won!
-				alert("Nice job!  You won that one!");
-				// Push to the games won array
-				game.gamesWon.push('x');
-				// Now you need to remove the word from the master answer array
+				// If the correct guesses == actual current answer array length, then they won that round! Push to the games won array.
+				game.roundsWon.push('x');
+				game.log('roundsWon: ' + game.roundsWon);
+				
+				// Remove the initial pick from the master answer array
+				game.pullMasterAnswerArray();
 
-				// At this point, you would need to check and see if the temp master array == original master array. If so, whole game is over.
-				// If it is not == original master array, then need to start another round and get the comp to pick another word that doesn't
-				// Already exist in the temp master array
-				if(game.masterAnswerArray.length == game.tempMasterAnswerArray.length) {
-					// The entire game is over, as every round has been exhausted
-					alert("Thanks for playing!  Please insert a quarter to start another round /;");
-					return false;
+				// User won the round.  Check masterAnswerArray length to see if game should continue
+				if(game.masterAnswerArray.length != 0) {
+					// Show confirm to ask use if they want to continue playing
+					if(!(confirm("Nice work, you won that round!  Do you want to continue to the next round?"))) {
+						// User chose not to continue the game.  End it by reloading the page
+						location.reload();
+					} else {
+						// User chose to go to the next round.  Initialize the new round. Note: this method includes the resetRoundVars() method
+						game.initializeGameRound();
+						game.log("Another round should have started at this point...");
+
+						// Update the games won count
+						$('#game-win-count').text(game.roundsWon.length);
+						return;
+					}
 				} else {
-					// In this case, the comp needs to pick another word from the master array that's NOT already in the temp master array
-					// REVISIT THIS
-					game.tempMasterAnswerArray.forEach(function(word, index) {
-						//if(game.tempMasterAnswerArray.indexOf(word))
-					});
+					// User won the whole game.  Show game over modal.  Modal button listeners will take care of action.
+					showGameCompleteModal("You won, congrats! Please insert $1,500 to play again!");
+					return;
 				}	
 			} else {
 				//Update the guesses remaining and the guesses taken values on the screen
-				$('h3#remaining-guesses').html(game.guessesRemaining);
-				$('h3#total-guesses').html(game.correctGuessArray.length + game.incorrectGuessArray.length);
+				$('#remaining-guesses').html(game.guessesRemaining);
+				$('#total-guesses').html(game.correctGuessArray.length + game.incorrectGuessArray.length);
 				game.log("Guesses remaining and taken were updated.");
 			}
-			// If the value == 0, game is over (Check the temp master array length)
-
 		}
 	}
 });

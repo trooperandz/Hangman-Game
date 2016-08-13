@@ -28,6 +28,21 @@
 		  	</div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->
 
+		<!-- This modal is for display when the game is over. Give the user the option to start another one, or close the window tab-->
+		<div class="modal fade" id="game-over-modal" tabindex="-1" role="dialog">
+		  	<div class="modal-dialog" role="document">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		        		<h4 class="modal-title text-center" id="game-over-modal-msg"></h4>
+		      		</div>
+		      		<div class="modal-body">
+		        		<button type="button" class="btn btn-danger" id="close-window-button">Close Window</button>
+        				<button type="button" class="btn btn-primary pull-right" id="new-game-button">New Game!</button>
+		      		</div>
+		    	</div><!-- /.modal-content -->
+		  	</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+
 		<div class="jumbotron">
   			<div class="container">
     			<h1 class="text-center"> Grecco-Roman Hangman! </h1>
@@ -63,15 +78,15 @@
 							</div>
 							<div class="col-sm-12 col-md-12 col-lg-12">
 								<h3 class="text-center">Guesses Remaining</h3>
-								<p id="remaining-guesses">15</p>
+								<p class="text-center" id="remaining-guesses">10</p>
 							</div>
 							<div class="col-sm-12 col-md-12 col-lg-12">
 								<h3 class="text-center" id="remaining-time">Time Remaining</h3>
 								<div id="timer">
 									<!--Days: <span class="days"></span><br>
     								Hours: <span class="hours"></span><br>-->
-    								<p> Minutes: <span class="minutes"></span> </p> <br>
-    								<p> Seconds: <span class="seconds"></span> </p>
+    								<p class="text-center" id="time-p"> Minutes: <span class="minutes"></span> </p> <br>
+    								<p class="text-center" id="time-p"> Seconds: <span class="seconds"></span> </p>
 								</div>
 							</div>
 						</div>
