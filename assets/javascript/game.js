@@ -60,17 +60,12 @@ var game = {
 
 	// Reset the global variables for a new game round. Do not reset master array.  Window reload will do that.
 	resetRoundVars: function() {
-		//this.initialInput = false;
-		//this.masterAnswerArray: ["TIBERIUS", "MARCUS", "BRUTUS", "OCTAVIUS", "CAESAR"];
 		this.initialPick = "";
-		//this.roundsWon = [];
-		//this.roundsLost = [];
 		this.currentAnswerArray = [];
 		this.userGuess = "";
 		this.correctGuessArray = [];
 		this.incorrectGuessArray = [];
 		this.guessesRemaining = 10;
-		//this.roundNumber = 0;
 	},
 
 	// Create the game blanks and insert the html
