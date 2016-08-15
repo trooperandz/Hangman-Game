@@ -53,4 +53,4 @@
 
  * The program utilizes Bootstrap modals for game start and for game won/lost events.
 
- * The player gets fade in/ fade out text feedback for correct, incorrect & already guessed letters
+ * The player gets fade in/ fade out text feedback for correct, incorrect & already guessed letters.
