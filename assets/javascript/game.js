@@ -198,8 +198,9 @@ var timer = {
     	    minutes = minutes < 10 ? "0" + minutes : minutes;
     	    seconds = seconds < 10 ? "0" + seconds : seconds;
 
-    	    // If the time runs out, show the game over modal
+    	    // If the time runs out, show the game over modal and reset the game vars
     	    if(minutes == "00" && seconds == "00") {
+    	    	game.resetRoundVars();
     	    	game.showGameCompleteModal("Game Over! You ran out of time, slowpoke.");
     	    }
 
