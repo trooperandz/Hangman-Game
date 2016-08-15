@@ -64,10 +64,6 @@ section h3 {
 	font-size: 40px;
 }
 
-#time-p {
-	font-size: 17px;
-}
-
 h4 {
 	color: #fff;
 	font-size: 20px;
@@ -161,13 +157,14 @@ h4 {
 	color: #fff;
 }
 
-#timer p {
+#timer {
 	display: inline-block;
 	padding: 0;
 	margin: 0;
-	font-size: 18px;
-	color: maroon;
+	font-size: 25px;
+	color: orange;
 	border-bottom: none;
+	text-align: center;
 }
 
 #timer span {

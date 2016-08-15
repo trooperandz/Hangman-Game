@@ -186,6 +186,35 @@ var game = {
 	}
 };
 
+var timer = {
+	startTimer: function() {
+		// Set timer for 15 minutes
+		var timeLimit = 60 * 15;
+    	var timer = timeLimit, minutes, seconds;
+    	setInterval(function () {
+    	    var minutes = parseInt(timer / 60, 10);
+    	    var seconds = parseInt(timer % 60, 10);
+	
+    	    minutes = minutes < 10 ? "0" + minutes : minutes;
+    	    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+    	    // If the time runs out, show the game over modal
+    	    if(minutes == "00" && seconds == "00") {
+    	    	game.showGameCompleteModal("Game Over! You ran out of time, slowpoke.");
+    	    }
+
+    	    // Update the html with the minutes and seconds values
+    	    $('.minutes').text(minutes);
+    	    $('.seconds').text(seconds);
+			
+			// If the timer runs to zero, restart it
+    	    if (--timer < 0) {
+    	        timer = timeLimit;
+    	    }
+    	}, 1000);
+    }
+}
+
 $(document).ready(function() {
 	// Show the modal before gameplay begins
 	$("#myModal").modal("show");
@@ -224,6 +253,9 @@ $(document).ready(function() {
 		if(game.initialInput) {
 			// Hide the modal when user presses the first key
 			$("#myModal").modal("hide");
+
+			// Initialize the timer
+    		timer.startTimer();
 
 			// Set the total number of rounds for round feedback. Note: value will not change as rounds progress.
 			game.roundsTotal = game.masterAnswerArray.length;
