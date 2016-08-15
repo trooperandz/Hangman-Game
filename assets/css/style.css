@@ -57,7 +57,7 @@ section h3 {
 }
 
 #remaining-time {
-	margin-top: 60px;
+	margin-top: 20px;
 }
 
 #remaining-guesses {
@@ -150,7 +150,9 @@ h4 {
 }
 
 /* Make the hint stand out */
-#hint-span {
+#hint-span, #letters-incorrect {
+	font-size: 20px;
+	font-weight: bold;
 	color: orange;
 }
 
@@ -159,18 +161,17 @@ h4 {
 	color: #fff;
 }
 
-#letters-incorrect {
-	font-size: 20px;
-	color: orange;
-}
-
 #timer p {
 	display: inline-block;
 	padding: 0;
 	margin: 0;
-	font-size: 12px;
+	font-size: 18px;
 	color: maroon;
 	border-bottom: none;
+}
+
+#timer span {
+	color: orange;
 }
 
 @media screen and (min-width: 980px) {

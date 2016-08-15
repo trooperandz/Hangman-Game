@@ -59,20 +59,18 @@
 
 		<div class="container-fluid">
 			<div class="row">
+				<!-- Main left panel will display Wins and Hints -->
 				<div class="col-sm-12 col-md-3 col-lg-3">
 					<div class="panel panel-left">
 						<h3 class="text-center"> Wins </h3>
 						<p class="text-center" id="game-win-count">0</p>
-						<h4 class="text-center"> Hint: <span id="hint-span">Roman Emperors</span> </h4>
-						<div id="timer">
-							<!--Days: <span class="days"></span><br>
-    						Hours: <span class="hours"></span><br>
-    						Minutes: <span class="minutes"></span><br>
-    						Seconds: <span class="seconds"></span>-->
-						</div>
+						<h4 class="text-center"> Hint </h4> 
+						<!-- Note: text will be replaced, but only after player presses a button. Put a starter in -->
+						<p class="text-center" id="hint-span"> Roman Emperors </p>
 					</div>
 				</div>
 
+				<!-- Main section will display round #, guess blanks, guesses remaining, and time remaining -->
 				<section class="col-sm-12 col-md-6 col-lg-6">
 					<div class="panel">
 						<div class="row">
@@ -89,13 +87,10 @@
 								<h3 class="text-center">Guesses Remaining</h3>
 								<p class="text-center" id="remaining-guesses">10</p>
 							</div>
-							<!--
+							<!-- Still working on getting the timer to work properly
 							<div class="col-sm-12 col-md-12 col-lg-12">
 								<h3 class="text-center" id="remaining-time">Time Remaining</h3>
-								<div id="timer">
-									<!--Days: <span class="days"></span><br>
-    								Hours: <span class="hours"></span><br>-->
-    								<!--
+								<div class="text-center" id="timer">
     								<p class="text-center" id="time-p"> Minutes: <span class="minutes"></span> </p> <br>
     								<p class="text-center" id="time-p"> Seconds: <span class="seconds"></span> </p>
 								</div>
@@ -103,7 +98,7 @@
 						</div>
 					</div>
 				</section>
-
+				<!-- Main right panel will display losses and wrong letters guessed -->
 				<div class="col-sm-12 col-md-3 col-lg-3">
 					<div class="panel panel-right">
 						<h3 class="text-center"> Losses </h3>
@@ -115,7 +110,7 @@
 			</div>
 		</div> <!-- .container-fluid -->
 
-		<!-- jQuery (necessary for Bootstrap's & other JavaScript plugins) -->
+		<!-- jQuery library (necessary for Bootstrap & other JavaScript plugins) -->
    		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
    		<!-- Backstretch js plugin, for page background -->
@@ -126,83 +121,5 @@
 
 		<!-- Custom js game code -->
 		<script src="assets/javascript/game.js"></script>
-
-		<!-- Backstretch background plugin initialization -->
-		<script>
-
-		$(document).ready(function() {
-
-				// Show the modal before gameplay begins
-				$("#myModal").modal("show");
-
-				// Include the backstretch plugin to make the background image fully responsive
-				$.backstretch(
-					[
-  				      "assets/images/bg_main.jpg",
-  				      "assets/images/man.jpg",
-  				  	  "assets/images/night.jpg",
-  				  	  "assets/images/stairs.jpg",
-  				  	  "assets/images/pantheon.jpg"
-  					], 
-  					{duration: 7000, fade: 2000}
-  				);
-			});
-
-		/* CODE FOR TIMER.  STILL GETTING IT TO WORK
-			var endTime = '2016-08-10';
-
-			function getTimeRemaining(endTime) {
-				var t = Date.parse(endTime) - Date.parse(new Date());
-				var seconds = Math.floor((t/1000) % 60);
-				var minutes = Math.floor((t/1000/60) % 60);
-				var hours = Math.floor((t/(1000*60*60)) % 24);
-				var days = Math.floor(t/(1000*60*60*24));
-
-				return {
-					'total': t,
-					'days' : days,
-					'hours': hours,
-					'minutes' : minutes,
-					'seconds' : seconds
-				};
-			}
-
-			function initializeClock(id, endTime) {
-				var clock = document.getElementById(id);
-				var daysSpan = clock.querySelector('.days');
-				var hoursSpan = clock.querySelector('.hours');
-				var minutesSpan = clock.querySelector('.minutes');
-				var secondsSpan = clock.querySelector('.seconds');
-
-				function updateClock() {
-					var t = getTimeRemaining(endTime);
-					   // daysSpan.innerHTML = t.days;
-    					//hoursSpan.innerHTML = t.hours;
-    					minutesSpan.innerHTML = t.minutes;
-    					secondsSpan.innerHTML = t.seconds;
-					if(t.total <= 0) {
-						clearInterval(timeInterval);
-					}
-				}
-
-				updateClock();
-				var timeInterval = setInterval(updateClock, 1000);
-
-				/*
-				var timeInterval = setInterval(function() {
-					var t = getTimeRemaining(endTime);
-					clock.innerHTML = 'days: ' + t.days + '<br>' +
-									  'hours: ' + t.hours + '<br>' +
-									  'minutes: ' + t.minutes + '<br>' +
-									  'seconds: ' + t.seconds;
-					if(t.total <= 0) {
-						clearInterval(timeInterval);
-					}
-				}, 1000);*/
-				/*
-			}
-
-			initializeClock('timer', endTime);*/
-		</script>
 	</body>
 </html>

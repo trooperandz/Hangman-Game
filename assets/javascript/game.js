@@ -1,16 +1,62 @@
+/* Ojbect for storage of main game functionality */
 var game = {
 	// Boolean value to determine start of game
 	initialInput: true,
 	// Array of all possible gameplay choices
-	masterAnswerArray: ["TIBERIUS", "MARCUS", "BRUTUS", "OCTAVIUS", "CAESAR", "CALIGULA"],
-	// The computer's choice from masterAnswerArray
-	initialPick: "",
+	//masterAnswerArray: ["TIBERIUS", "MARCUS", "BRUTUS", "AUGUSTUS", "CAESAR", "CALIGULA", "NERO"],
+	masterAnswerArray: [
+
+		{
+			name: "TIBERIUS",
+			hint: "Pliny the Elder called him 'The gloomiest of men'",
+		},
+
+		{
+			name: "MARCUS",
+			hint: "The last of the 'Five Good Emperors'",
+		},
+
+		{
+			name: "BRUTUS",
+			hint: "He assassinated Julius Caesar",
+		},
+
+		{
+			name: "AUGUSTUS",
+			hint: "The founder of the Roman Empire",
+		},
+
+		{
+			name: "CAESAR",
+			hint: "He was assassinated on the Ides of March"
+		},
+
+		{
+			name: "CALIGULA",
+			hint:  "Described as a sadistic, insane tyrant"
+		},
+
+		{
+			name: "NERO",
+			hint: "Romans believed he started the Great Fire of Rome"
+		}
+	],
+	// The computer's random object selection from masterAnswerArray
+	initialObjPick: {},
+	// The computer's random index selection from masterAnswerArray
+	initialIndexPick: 0,
+	// The name selected from the initial pick
+	namePick: "",
+	// The hint selected from the initial pick
+	hintPick: "",
 	// Make sure that user is only able to play with letters, man!!
 	alphaRequirement: /^[A-z]+$/,
 	// Save total games won, as count will be used for user feedback count (use 'x' as placeholder)
 	roundsWon: [],
 	// Save total games lost, as count will be used for user feedback count (use 'x' as placeholder)
 	roundsLost: [],
+	// Initialize total number of rounds possible. Obtain length from masterAnswerArray at initialization
+	roundsTotal: 0,
 	// Establish total possible number of guesses, before the current game is lost
 	totalLetterGuessLimit: 10,
 	// Array of inidividual letters for each character in the initialPick var
@@ -37,22 +83,30 @@ var game = {
 		// Reset the object properties for the new round
 		this.resetRoundVars();
 
-		// Get the computer to choose a random string from masterAnwerArray
-		this.initialPick = this.randomPick();
-		this.log("initial pick: " + this.initialPick);
+		// Get the computer to choose a random object from masterAnswerArray. Save the index and the object for later use.
+		var index = this.initialIndexPick = this.randomIndexPick();
+		var prick = this.initialObjPick = this.masterAnswerArray[index];
+		this.namePick = prick.name;
+		this.hintPick = prick.hint;
+		this.log("name pick: " + this.namePick + " hint pick: " + this.hintPick);
 
-		// Take the initialPick string and push into currentAnswerArray as an array of letters
-		this.currentAnswerArray = this.initialPick.split("");
+		// Take the namePick string and push into currentAnswerArray as an array of letters
+		this.currentAnswerArray = this.namePick.split("");
 		this.log("currentAnswerArray: " + this.currentAnswerArray);
 
 		// Increment the game round count, and then fill in the correct game round #
 		this.roundNumber = this.roundNumber += 1;
-		$('#round-heading').html("Round " + this.roundNumber).fadeIn(2500);
+		$('#round-heading').html("Round " + this.roundNumber + " of " + this.roundsTotal).fadeIn(2500);
 
 		// Fill in zeroes for the counts
 		$('#remaining-guesses').html(this.guessesRemaining).fadeIn(2500);
 		$('#total-guesses').html(0).fadeIn(2500);
 		$('#letters-incorrect').text("");
+
+		// Fill in the hint span
+		//$('#hint-span').text(this.hintPick);
+		var hintSpan = document.getElementById("hint-span");
+		hintSpan.innerHTML = this.hintPick;
 
 		// Create html content to display blank answer choices
 		this.createGuessBlanks("#guessBlanks", this.currentAnswerArray);
@@ -60,7 +114,8 @@ var game = {
 
 	// Reset the global variables for a new game round. Do not reset master array.  Window reload will do that.
 	resetRoundVars: function() {
-		this.initialPick = "";
+		this.namePick = "";
+		this.hintPick = "";
 		this.currentAnswerArray = [];
 		this.userGuess = "";
 		this.correctGuessArray = [];
@@ -77,9 +132,11 @@ var game = {
 		document.querySelector(id).innerHTML = content;
 	},
 
-	// Pick a random item from the masterAnswerArray
-	randomPick: function() {
-		return this.masterAnswerArray[Math.floor(Math.random() * this.masterAnswerArray.length)];
+	// Pick a random object from the masterAnswerArray. Will be used to access name and hint properties of the chosen object.
+	randomIndexPick: function() {
+		var index = Math.floor(Math.random() * this.masterAnswerArray.length);
+		return index;
+		//return this.masterAnswerArray[index];
 	},
 
 	// Grab the key that the user chooses and convert into an uppercase letter
@@ -88,9 +145,11 @@ var game = {
 	},
 
 	// Remove the initial pick from the master answer array after game round has concluded
-	pullMasterAnswerArray: function(currentPick) {
-		var removeIndex = this.masterAnswerArray.indexOf(currentPick);
-		(removeIndex != -1) ? this.masterAnswerArray.splice(removeIndex, 1) : alert("Fatal System Error: initialPick not found!");
+	pullMasterAnswerArray: function(index) {
+		this.masterAnswerArray.splice(index, 1);
+		this.log('masterAnswerArray should have been altered. It is now: ' + this.masterAnswerArray);
+		//var removeIndex = this.masterAnswerArray.indexOf(currentPick);
+		//(removeIndex != -1) ? this.masterAnswerArray.splice(removeIndex, 1) : alert("Fatal System Error: initialPick not found!");
 		//this.log("masterAnswerArray should have been altered! It is now: " + this.masterAnswerArray);
 	},
 
@@ -129,10 +188,26 @@ var game = {
 };
 
 $(document).ready(function() {
-
 	// Show the modal before gameplay begins
 	$("#myModal").modal("show");
-	//$("#game-over-modal").modal("show");
+
+	// Include the backstretch plugin to make the background image fully responsive
+	$.backstretch(
+		[
+  	      "assets/images/bg_main.jpg",
+  	      "assets/images/man.jpg",
+  	  	  "assets/images/night.jpg",
+  	  	  "assets/images/stairs.jpg",
+  	  	  "assets/images/pantheon.jpg",
+  	  	  "assets/images/ruins.jpg",
+  	  	  "assets/images/street_scene.jpg",
+  		], 
+
+  		{
+  			duration: 8000, 
+  			fade: 1400
+  		}
+  	);
 
 	// Provide a click handler for the game over modal, restart game choice, so that modal goes away
 	// Note that the processing code for the new game start has already occurred on the page prior to modal displaying
@@ -150,6 +225,9 @@ $(document).ready(function() {
 		if(game.initialInput) {
 			// Hide the modal when user presses the first key
 			$("#myModal").modal("hide");
+
+			// Set the total number of rounds for round feedback. Note: value will not change as rounds progress.
+			game.roundsTotal = game.masterAnswerArray.length;
 
 			// Initialize the new round
 			game.initializeGameRound();
@@ -235,7 +313,7 @@ $(document).ready(function() {
 						
 				// Remove the initial pick from the master answer array
 				game.log('masterAnswerArray before pull: ' + game.masterAnswerArray);
-				game.pullMasterAnswerArray(game.initialPick);
+				game.pullMasterAnswerArray(game.initialIndexPick);
 				game.log('masterAnswerArray after pull: ' + game.masterAnswerArray);
 
 				// User lost the round. Check masterAnswerArray length to see if game should continue
@@ -266,7 +344,7 @@ $(document).ready(function() {
 				
 				// Remove the initial pick from the master answer array
 				game.log('masterAnswerArray before pull: ' + game.masterAnswerArray);
-				game.pullMasterAnswerArray(game.initialPick);
+				game.pullMasterAnswerArray(game.initialIndexPick);
 				game.log('masterAnswerArray after pull: ' + game.masterAnswerArray);
 
 				// User won the round.  Check masterAnswerArray length to see if game should continue
