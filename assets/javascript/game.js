@@ -3,7 +3,6 @@ var game = {
 	// Boolean value to determine start of game
 	initialInput: true,
 	// Array of all possible gameplay choices
-	//masterAnswerArray: ["TIBERIUS", "MARCUS", "BRUTUS", "AUGUSTUS", "CAESAR", "CALIGULA", "NERO"],
 	masterAnswerArray: [
 
 		{
