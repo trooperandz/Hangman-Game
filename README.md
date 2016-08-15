@@ -49,6 +49,8 @@
 
  * The program features background music, and music that plays for wins and losses!
 
- * The program features hint text for each round answer
+ * The program features hint text for each round answer.
 
- * The program utilizes Bootstrap modals for game start and for game won/lost events
+ * The program utilizes Bootstrap modals for game start and for game won/lost events.
+
+ * The player gets fade in/ fade out text feedback for correct, incorrect & already guessed letters
