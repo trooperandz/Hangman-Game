@@ -106,7 +106,7 @@ const game = {
 
 		// Fill in the hint span
 		//$('#hint-span').text(game.hintPick);
-		var hintSpan = document.getElementById("hint-span");
+		let hintSpan = document.getElementById("hint-span");
 		hintSpan.innerHTML = game.hintPick;
 
 		// Create html content to display blank answer choices
@@ -225,17 +225,17 @@ $(document).ready(() => {
 	// Include the backstretch plugin to make the background image fully responsive
 	$.backstretch(
 		[
-  	      "assets/images/bg_main.jpg",
-  	      "assets/images/man.jpg",
-  	  	  "assets/images/night.jpg",
-  	  	  "assets/images/stairs.jpg",
-  	  	  "assets/images/pantheon.jpg",
-  	  	  "assets/images/bw_street_sculpture.jpg",
-  	  	  "assets/images/forum.jpg",
+  	      "img/bg_main.jpg",
+  	      "img/man.jpg",
+  	  	  "img/night.jpg",
+  	  	  "img/stairs.jpg",
+  	  	  "img/pantheon.jpg",
+  	  	  "img/bw_street_sculpture.jpg",
+  	  	  "img/forum.jpg",
   		],
 
   		{
-  			duration: 8000,
+  			duration: 9000,
   			fade: 1400
   		}
   	);

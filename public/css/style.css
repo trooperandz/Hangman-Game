@@ -58,6 +58,7 @@ section h3 {
 	margin-top: 25px;
 	color: #4aaaa5;
 	font-size: 20px;
+    text-shadow: 1px 1px 1px rgba(208,208,208,0.3);
 }
 
 #remaining-time {
@@ -154,7 +155,8 @@ h4 {
 #hint-span, #letters-incorrect {
 	font-size: 20px;
 	font-weight: bold;
-	color: orange;
+    color: #e59400;
+    text-shadow: 1px 1px 1px gray;
 }
 
 #game-loss-count {
@@ -167,13 +169,13 @@ h4 {
 	padding: 0;
 	margin: 0;
 	font-size: 25px;
-	color: orange;
+	color: maroon;
 	border-bottom: none;
 	text-align: center;
 }
 
 #timer span {
-	color: orange;
+	color: maroon;
 }
 
 @media screen and (min-width: 980px) {

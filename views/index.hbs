@@ -1,0 +1,68 @@
+{{!-- audio for game play --}}
+<audio src="music/vast_skyline.mp3" id="music-background" loop="loop" autoplay="autoplay">Your browser does not support the audio element.</audio>
+{{!-- audio for game win --}}
+<audio src="music/spaceship.mp3" id="music-win">Your browser does not support the audio element.</audio>
+{{!-- audio for game loss --}}
+<audio src="music/abandoned_city.mp3" id="music-lose">Your browser does not support the audio element.</audio>
+
+{{!-- Big Page Heading --}}
+<div class="jumbotron">
+    <div class="container">
+        <h1 class="text-center"> Grecco-Roman Hangman! </h1>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        {{!-- Main left panel will display Wins and Hints --}}
+        <div class="col-sm-12 col-md-3 col-lg-3">
+            <div class="panel panel-left">
+                <h3 class="text-center"> Wins </h3>
+                <p class="text-center" id="game-win-count">0</p>
+                <h4 class="text-center"> Hint </h4>
+                {{!-- Note: text will be replaced, but only after player presses a button. Put a starter in --}}
+                <p class="text-center" id="hint-span"> Roman Emperors </p>
+            </div>
+        </div>
+
+        {{!-- Main section will display round #, guess blanks, guesses remaining, and time remaining --}}
+        <section class="col-sm-12 col-md-6 col-lg-6">
+            <div class="panel">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <h3 class="text-center" id="round-heading"> Round 1 </h3>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-12 div-feedback">
+                        <p class="key-feedback text-center"></p>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <div class="text-center" id="guessBlanks"></div>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-lg-12">
+                        <h3 class="text-center">Guesses Remaining</h3>
+                        <p class="text-center" id="remaining-guesses">10</p>
+                    </div>
+
+                    <div class="col-sm-12 col-md-12 col-lg-12 text-center">
+                        <h3 id="remaining-time">Time Remaining</h3>
+                        <div id="timer">
+                            <p>
+                                <span class="minutes"></span> : <span class="seconds"></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        {{!-- Main right panel will display losses and wrong letters guessed --}}
+        <div class="col-sm-12 col-md-3 col-lg-3">
+            <div class="panel panel-right">
+                <h3 class="text-center"> Losses </h3>
+                <p class="text-center" id="game-loss-count">0</p>
+                <h4 class="text-center"> Wrong Letters Guessed </h4>
+                <p class="text-center" id="letters-incorrect"></p>
+            </div>
+        </div>
+    </div>
+</div> {{!-- .container-fluid --}}

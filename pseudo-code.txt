@@ -12,7 +12,7 @@
 
 		} else if (initialInput == 0) {
 			game.initialInput++;
-		} 
+		}
 	}
 
 1) User presses any key to get started
@@ -30,7 +30,7 @@ Processing:
 	* Move into a for loop (using currentAnswerArray.length as loop limit) and create a string of html content containing unique id's which match array 	  indeces
 	* Execute updateHtml instruction to update the blank ticmarks
 	* document.onkeyup = function(event) {...} ( captures user input and puts into variable userGuess )
-	* 
+	*
 
 Variables:
 	* initialInput (tracks the first key stroke to start the game)
@@ -50,13 +50,12 @@ Functions:
 	* answerSplit (splits the answerArray string (before it's an array) into an array)
 	* guessArrayReset (takes the guessArray and removes array contents)
 	* removeAnswer (removes possible answer from the array so that the computer is not able to choose it again)
-	* logIncorrectGuess (increment the incorrectGuess variable and will decreases possible guesses remaining 
+	* logIncorrectGuess (increment the incorrectGuess variable and will decreases possible guesses remaining
 	* displayCorrectLetter (execute the instruction to update the html with the letter which was guessed correctly)
 	* checkGuessesLeft (gets the length of the)
 
 Misc:
 	*
-
 
 *use jQuery to dynamically insert spaces into the html (to represent the number of characters present in the answer)
 *

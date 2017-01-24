@@ -1,0 +1,31 @@
+{
+  "name": "hangman",
+  "version": "1.0.0",
+  "description": "Hangman Game",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trooperandz/Hangman-Game.git"
+  },
+  "author": "MH",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/trooperandz/Hangman-Game/issues"
+  },
+  "homepage": "https://github.com/trooperandz/Hangman-Game#readme",
+  "dependencies": {
+    "body-parser": "^1.16.0",
+    "debug": "^2.6.0",
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
+    "http": "0.0.0",
+    "morgan": "^1.7.0",
+    "nodemon": "^1.11.0",
+    "path": "^0.12.7",
+    "pm2": "^2.3.0",
+    "serve-favicon": "^2.3.2"
+  }
+}
