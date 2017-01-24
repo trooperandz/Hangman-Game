@@ -1,5 +1,7 @@
+'use strict';
+
 /* Ojbect for storage of main game functionality */
-var game = {
+const game = {
 	// Boolean value to determine start of game
 	initialInput: true,
 	// Array of all possible gameplay choices
@@ -78,123 +80,123 @@ var game = {
 	dupeKeyFeedback: "You already chose that one!",
 
 	// Initialize a new round
-	initializeGameRound: function() {
+	initializeGameRound: () => {
 		// Reset the object properties for the new round
-		this.resetRoundVars();
+		game.resetRoundVars();
 
 		// Get the computer to choose a random object from masterAnswerArray. Save the index and the object for later use.
-		var index = this.initialIndexPick = this.randomIndexPick();
-		var prick = this.initialObjPick = this.masterAnswerArray[index];
-		this.namePick = prick.name;
-		this.hintPick = prick.hint;
-		this.log("name pick: " + this.namePick + " hint pick: " + this.hintPick);
+		let index = game.initialIndexPick = game.randomIndexPick();
+		let prick = game.initialObjPick = game.masterAnswerArray[index];
+		game.namePick = prick.name;
+		game.hintPick = prick.hint;
+		game.log("name pick: " + game.namePick + " hint pick: " + game.hintPick);
 
 		// Take the namePick string and push into currentAnswerArray as an array of letters
-		this.currentAnswerArray = this.namePick.split("");
-		this.log("currentAnswerArray: " + this.currentAnswerArray);
+		game.currentAnswerArray = game.namePick.split("");
+		game.log("currentAnswerArray: " + game.currentAnswerArray);
 
 		// Increment the game round count, and then fill in the correct game round #
-		this.roundNumber = this.roundNumber += 1;
-		$('#round-heading').html("Round " + this.roundNumber + " of " + this.roundsTotal).fadeIn(2500);
+		game.roundNumber = game.roundNumber += 1;
+		$('#round-heading').html("Round " + game.roundNumber + " of " + game.roundsTotal).fadeIn(2500);
 
 		// Fill in zeroes for the counts
-		$('#remaining-guesses').html(this.guessesRemaining).fadeIn(2500);
+		$('#remaining-guesses').html(game.guessesRemaining).fadeIn(2500);
 		$('#total-guesses').html(0).fadeIn(2500);
 		$('#letters-incorrect').text("");
 
 		// Fill in the hint span
-		//$('#hint-span').text(this.hintPick);
+		//$('#hint-span').text(game.hintPick);
 		var hintSpan = document.getElementById("hint-span");
-		hintSpan.innerHTML = this.hintPick;
+		hintSpan.innerHTML = game.hintPick;
 
 		// Create html content to display blank answer choices
-		this.createGuessBlanks("#guessBlanks", this.currentAnswerArray);
+		game.createGuessBlanks("#guessBlanks", game.currentAnswerArray);
 	},
 
 	// Reset the global variables for a new game round. Do not reset master array.  Window reload will do that.
-	resetRoundVars: function() {
-		this.namePick = "";
-		this.hintPick = "";
-		this.currentAnswerArray = [];
-		this.userGuess = "";
-		this.correctGuessArray = [];
-		this.incorrectGuessArray = [];
-		this.guessesRemaining = 10;
+	resetRoundVars: () => {
+		game.namePick = "";
+		game.hintPick = "";
+		game.currentAnswerArray = [];
+		game.userGuess = "";
+		game.correctGuessArray = [];
+		game.incorrectGuessArray = [];
+		game.guessesRemaining = 10;
 	},
 
 	// Create the game blanks and insert the html
-	createGuessBlanks: function(id, array) {
-		var content = "";
-		for(var i=0; i<array.length; i++) {
+	createGuessBlanks: (id, array) => {
+		let content = "";
+		for(let i=0; i<array.length; i++) {
 			content += '<p class="underline" id="'+ i +'"></p>';
 		}
 		document.querySelector(id).innerHTML = content;
 	},
 
 	// Pick a random object from the masterAnswerArray. Will be used to access name and hint properties of the chosen object.
-	randomIndexPick: function() {
-		var index = Math.floor(Math.random() * this.masterAnswerArray.length);
+	randomIndexPick: () => {
+		let index = Math.floor(Math.random() * game.masterAnswerArray.length);
 		return index;
-		//return this.masterAnswerArray[index];
+		//return game.masterAnswerArray[index];
 	},
 
 	// Grab the key that the user chooses and convert into an uppercase letter
-	convertKeyPress: function(keystroke) {
+	convertKeyPress: (keystroke) => {
 		return String.fromCharCode(keystroke.keyCode).toUpperCase();
 	},
 
 	// Remove the initial pick from the master answer array after game round has concluded
-	pullMasterAnswerArray: function(index) {
-		this.masterAnswerArray.splice(index, 1);
-		this.log('masterAnswerArray should have been altered. It is now: ' + this.masterAnswerArray);
-		//var removeIndex = this.masterAnswerArray.indexOf(currentPick);
-		//(removeIndex != -1) ? this.masterAnswerArray.splice(removeIndex, 1) : alert("Fatal System Error: initialPick not found!");
-		//this.log("masterAnswerArray should have been altered! It is now: " + this.masterAnswerArray);
+	pullMasterAnswerArray: (index) => {
+		game.masterAnswerArray.splice(index, 1);
+		game.log('masterAnswerArray should have been altered. It is now: ' + game.masterAnswerArray);
+		//var removeIndex = game.masterAnswerArray.indexOf(currentPick);
+		//(removeIndex != -1) ? game.masterAnswerArray.splice(removeIndex, 1) : alert("Fatal System Error: initialPick not found!");
+		//game.log("masterAnswerArray should have been altered! It is now: " + game.masterAnswerArray);
 	},
 
 	// When the game is over, show the win or lose message
-	showGameCompleteModal: function(msg) {
+	showGameCompleteModal: (msg) => {
 		$('#game-over-modal').modal('show');
-		$('#game-over-modal-msg').text(msg + " " + this.showGameWinsLostCount());
-		this.log("You just reached the end of the game!");
+		$('#game-over-modal-msg').text(msg + " " + game.showGameWinsLostCount());
+		game.log("You just reached the end of the game!");
 	},
 
 	// Show how many rounds were won/lost in the completed game modal
-	showGameWinsLostCount: function() {
-		return "You won " + this.roundsWon.length + " rounds and you lost " + this.roundsLost.length + " rounds!";
+	showGameWinsLostCount: () => {
+		return "You won " + game.roundsWon.length + " rounds and you lost " + game.roundsLost.length + " rounds!";
 	},
 
 	// Play the winning music if player wins
-	playWinMusic: function() {
-		var background = document.getElementById("music-background"); 
+	playWinMusic: () => {
+		let background = document.getElementById("music-background");
 		background.pause();
-		var win = document.getElementById("music-win");
+		let win = document.getElementById("music-win");
 		win.play();
 	},
 
 	// Play the losing music if player loses
-	playLoseMusic: function() {
-		var background = document.getElementById("music-background"); 
+	playLoseMusic: () => {
+		let background = document.getElementById("music-background");
 		background.pause();
-		var lose = document.getElementById("music-lose");
+		let lose = document.getElementById("music-lose");
 		lose.play();
 	},
 
 	// Console.log function for debugging
-	log: function(msg) {
+	log: (msg) => {
 		console.log(msg + "\n");
 	}
 };
 
-var timer = {
-	startTimer: function() {
+const timer = {
+	startTimer: () => {
 		// Set timer for 15 minutes
-		var timeLimit = 60 * 15;
-    	var timer = timeLimit, minutes, seconds;
+		let timeLimit = 60 * 15;
+    	let timer = timeLimit, minutes, seconds;
     	setInterval(function () {
-    	    var minutes = parseInt(timer / 60, 10);
-    	    var seconds = parseInt(timer % 60, 10);
-	
+    	    let minutes = parseInt(timer / 60, 10);
+    	    let seconds = parseInt(timer % 60, 10);
+
     	    minutes = minutes < 10 ? "0" + minutes : minutes;
     	    seconds = seconds < 10 ? "0" + seconds : seconds;
 
@@ -207,7 +209,7 @@ var timer = {
     	    // Update the html with the minutes and seconds values
     	    $('.minutes').text(minutes);
     	    $('.seconds').text(seconds);
-			
+
 			// If the timer runs to zero, restart it
     	    if (--timer < 0) {
     	        timer = timeLimit;
@@ -216,7 +218,7 @@ var timer = {
     }
 }
 
-$(document).ready(function() {
+$(document).ready(() => {
 	// Show the modal before gameplay begins
 	$("#myModal").modal("show");
 
@@ -228,29 +230,29 @@ $(document).ready(function() {
   	  	  "assets/images/night.jpg",
   	  	  "assets/images/stairs.jpg",
   	  	  "assets/images/pantheon.jpg",
-  	  	  "assets/images/ruins.jpg",
-  	  	  "assets/images/street_scene.jpg",
-  		], 
+  	  	  "assets/images/bw_street_sculpture.jpg",
+  	  	  "assets/images/forum.jpg",
+  		],
 
   		{
-  			duration: 8000, 
+  			duration: 8000,
   			fade: 1400
   		}
   	);
 
 	// Provide a click handler for the game over modal, restart game choice, so that modal goes away
 	// Note that the processing code for the new game start has already occurred on the page prior to modal displaying
-	$('#new-game-button').on('click', function(e) {
+	$('#new-game-button').on('click', (e) => {
 		//e.target.modal("hide");
 		location.reload();
 	});
 
 	// Provide a click handler for the window close modal button
-	$('#close-window-button').on('click', function() {
+	$('#close-window-button').on('click', () => {
 		window.close();
 	});
 
-	document.onkeyup = function(event) {
+	document.onkeyup = (event) => {
 		if(game.initialInput) {
 			// Hide the modal when user presses the first key
 			$("#myModal").modal("hide");
@@ -279,11 +281,11 @@ $(document).ready(function() {
 
 			// Establish temp holding array for determining which array to house userGuess in.
 			// Do not initialize inside of object, as would have to manually reset it for every keystroke
-			var tempCorrectArray = [];
+			let tempCorrectArray = [];
 
-			// Use this loop for updating the blanks on the page. 
+			// Use this loop for updating the blanks on the page.
 			// tempCorrectArray will be used to determine later array push to correct or incorrect guess arrays
-			game.currentAnswerArray.forEach(function(letter, index) {
+			game.currentAnswerArray.forEach((letter, index) => {
 				if(game.userGuess === letter) {
 					// Insert the correct letter into the <p> element, and remove the 'underline' class
 					$('p#' + index).html(letter).removeClass("underline");
@@ -297,10 +299,10 @@ $(document).ready(function() {
 			if(tempCorrectArray.length > 0) {
 				// User chose a correct letter! Store the correct guess if it does not already exist in the array
 				// Push dupe letters into correct guess array so can determine if round is over in future
-				// Note: you need to store dupes so that when user has guessed all correct letters, 
-				// the length of correctGuessArray == length of correctAnswerArray                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             == correctAnswerArray.length
+				// Note: you need to store dupes so that when user has guessed all correct letters,
+				// the length of correctGuessArray == length of correctAnswerArray == correctAnswerArray.length
 				if(game.correctGuessArray.indexOf(game.userGuess) == -1) {
-					tempCorrectArray.forEach(function(letter) {
+					tempCorrectArray.forEach((letter) => {
 						game.correctGuessArray.push(game.userGuess);
 						game.log("The letter " + game.userGuess + " was addded to correctGuessArray!");
 					});
@@ -323,8 +325,8 @@ $(document).ready(function() {
 			}
 
 			// Use the incorrect array to update the incorrect letters guessed on the screen
-			var content = "";
-			game.incorrectGuessArray.forEach(function(letter, index) {
+			let content = "";
+			game.incorrectGuessArray.forEach((letter, index) => {
 				content += (index == game.incorrectGuessArray.length -1) ? letter : letter + ", ";
 			});
 
@@ -334,7 +336,7 @@ $(document).ready(function() {
 			game.log('incorrectGuessArray: ' + game.incorrectGuessArray);
 
 			// Determine number of guesses left in current game, and display on the screen
-			game.guessesRemaining = (game.totalLetterGuessLimit - game.incorrectGuessArray.length); 
+			game.guessesRemaining = (game.totalLetterGuessLimit - game.incorrectGuessArray.length);
 			$('#remaining-guesses').text(game.guessesRemaining);
 
 			// If the user was unable to guess the current word, continue to next round if he/she confirms
@@ -342,7 +344,7 @@ $(document).ready(function() {
 				// Record the lost round.
 				game.roundsLost.push('x');
 				game.log('roundsWon: ' + game.roundsWon);
-						
+
 				// Remove the initial pick from the master answer array
 				game.log('masterAnswerArray before pull: ' + game.masterAnswerArray);
 				game.pullMasterAnswerArray(game.initialIndexPick);
@@ -373,7 +375,7 @@ $(document).ready(function() {
 				// If the correct guesses == actual current answer array length, then they won that round! Push to the games won array.
 				game.roundsWon.push('x');
 				game.log('roundsWon: ' + game.roundsWon);
-				
+
 				// Remove the initial pick from the master answer array
 				game.log('masterAnswerArray before pull: ' + game.masterAnswerArray);
 				game.pullMasterAnswerArray(game.initialIndexPick);
@@ -399,7 +401,7 @@ $(document).ready(function() {
 					game.playWinMusic();
 					game.showGameCompleteModal("You won, congrats! Insert $1,500 to play again!");
 					return;
-				}	
+				}
 			} else {
 				//Update the guesses remaining and the guesses taken values on the screen
 				$('#remaining-guesses').html(game.guessesRemaining);

@@ -2,9 +2,13 @@ body {
 	font-family: 'Cinzel', serif;
 }
 
+.modal-content {
+    border-radius: 2px;
+}
+
 h1 {
 	color: #fff;
-	font-weight: 200;	
+	font-weight: 200;
 }
 
 /* Main Heading */
@@ -79,7 +83,7 @@ h4 {
 	margin-right: 6px;
 	color: maroon;
 	font-size: 50px;
-	
+
 }
 
 /* Use for underlining the blanks.  Class will be removed after letter insert instruction */
@@ -88,13 +92,14 @@ h4 {
 }
 
 .panel {
-	/* Apply transparent background to panel.  
-	 * Do not use opacity, as it will cause everything else inside to be opaque 
+	/* Apply transparent background to panel.
+	 * Do not use opacity, as it will cause everything else inside to be opaque
 	 * Use rgb as browser fallback
 	 */
 	background-color: rgb(204,204,204);
 	background-color: rgba(204,204,204,0.5);
 	height: 500px;
+    border-radius: 0;
 }
 
 .panel-left h3 {
