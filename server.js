@@ -10,13 +10,13 @@ const port = process.env.PORT || '5001';
 app.engine('.hbs', exphbs({
     defaultLayout: 'main',
     extname: '.hbs',
-    layoutsDir: path.join(__dirname, 'views/layouts'),
+    layoutsDir: path.join(__dirname, 'app/views/layouts'),
 }));
 app.set('view engine', '.hbs')
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'app/views'));
 
 // Serve static content
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'app/public')));
 
 app.get('/', (req, res) => {
   res.render('index');
